@@ -358,6 +358,7 @@
                     
                     // Exclude agent's own repos
                     if (repoName.startsWith(username + '/')) return true;
+                    if (repoName.startsWith('mkmeral/') || repoName.startsWith('opieter-aws/')) return true;
                     
                     // Exclude user's repos
                     for (var i = 0; i < excludeRepos.length; i++) {

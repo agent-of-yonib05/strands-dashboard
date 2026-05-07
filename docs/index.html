@@ -859,13 +859,13 @@
             getActivityBgStyle(repo) {
                 const owner = (repo || '').split('/')[0].toLowerCase();
                 if (['agent-of-mkmeral', 'mkmeral'].includes(owner)) return 'background-color: rgba(99,102,241,0.06); border-left: 2px solid rgba(99,102,241,0.3)';
-                if (['strands-agents', 'strands-labs'].includes(owner)) return 'background-color: rgba(34,197,94,0.06); border-left: 2px solid rgba(34,197,94,0.3)';
+                if (['strands-agents', 'strands-labs', 'opieter-aws'].includes(owner)) return 'background-color: rgba(34,197,94,0.06); border-left: 2px solid rgba(34,197,94,0.3)';
                 return 'background-color: rgba(234,179,8,0.08); border-left: 2px solid rgba(234,179,8,0.4)';
             },
             getActivityCategory(repo) {
                 const owner = (repo || '').split('/')[0].toLowerCase();
                 if (['agent-of-mkmeral', 'mkmeral'].includes(owner)) return 'own';
-                if (['strands-agents', 'strands-labs'].includes(owner)) return 'strands';
+                if (['strands-agents', 'strands-labs', 'opieter-aws'].includes(owner)) return 'strands';
                 return 'other';
             },
             extractIssueNum(action) { const m = action.display_title?.match(/#(\d+)/) || action.head_commit?.message?.match(/#(\d+)/); return m ? parseInt(m[1]) : null; },
@@ -1252,7 +1252,7 @@
                     const threshold3d = new Date(Date.now() - 3 * 86400000);
                     const throttledTypes = new Set(['IssueCommentEvent', 'PullRequestReviewEvent', 'PullRequestReviewCommentEvent', 'IssuesEvent', 'PullRequestEvent', 'CommitCommentEvent', 'CreateEvent', 'DeleteEvent', 'PushEvent']);
                     const external = [], internal = [], allDisplay = [];
-                    const internalOwners = [owner.toLowerCase(), 'mkmeral'];
+                    const internalOwners = [owner.toLowerCase(), 'mkmeral', 'opieter-aws'];
                     for (const event of events) {
                         if (!throttledTypes.has(event.type)) continue;
                         if (new Date(event.created_at) < threshold3d) continue;
@@ -1282,7 +1282,7 @@
                 try {
                     const owner = this.config.github.repo.split('/')[0];
                     const headers = { 'Authorization': `Bearer ${this.config.github.token}` };
-                    const excludedOwners = [owner.toLowerCase(), 'mkmeral'];
+                    const excludedOwners = [owner.toLowerCase(), 'mkmeral', 'opieter-aws'];
                     const isExternalRepo = item => { const repoOwner = (item.repository_url || '').replace('https://api.github.com/repos/', '').split('/')[0].toLowerCase(); return !excludedOwners.includes(repoOwner); };
                     const [prRes, issueRes] = await Promise.all([
                         fetch(`https://api.github.com/search/issues?q=${encodeURIComponent(`is:pr is:open author:${owner} is:public`)}&per_page=100&sort=updated&order=desc`, { headers }),
@@ -2506,7 +2506,7 @@
             // ===== WARNINGS =====
             computeWarnings() {
                 const w = [], owner = this.config.github.repo.split('/')[0];
-                const ALLOWED = ['agent-of-mkmeral', 'strands-agents', 'strands-labs', 'mkmeral'];
+                const ALLOWED = ['agent-of-mkmeral', 'strands-agents', 'strands-labs', 'mkmeral', 'opieter-aws'];
                 const ext = this.activityData.external_events || [];
                 const unauth = ext.filter(e => !ALLOWED.some(o => o.toLowerCase() === (e.repo || '').split('/')[0].toLowerCase()));
                 if (unauth.length > 0) { const repos = [...new Set(unauth.map(e => e.repo))]; w.push({ level: 'critical', icon: '<i data-lucide="shield-alert" class="inline-icon"></i>', title: 'Unauthorized Repository Interaction', description: `Agent performed ${unauth.length} action(s) in ${repos.length} unauthorized repo(s)`, details: repos.slice(0, 5).join(', ') }); }
