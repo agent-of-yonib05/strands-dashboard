@@ -450,7 +450,7 @@
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <h3 class="text-sm font-semibold flex items-center gap-1.5"><i data-lucide="at-sign" style="width:14px;height:14px"></i> Mentions</h3>
-                            <p class="text-[11px] text-txt-muted mt-0.5">@agent-of-mkmeral mention polling · Hourly (8am–10pm UTC)</p>
+                            <p class="text-[11px] text-txt-muted mt-0.5">@agent-of-yonib05 mention polling · Hourly (8am–10pm UTC)</p>
                         </div>
                         <button @click="triggerMentionsCheck()" class="text-xs font-medium px-4 py-2 rounded-lg bg-accent hover:bg-accent-light text-white transition-colors flex items-center gap-1.5" :disabled="mentionsTriggering">
                             <span x-show="!mentionsTriggering"><i data-lucide="search" class="inline-icon"></i> Check Now</span>
@@ -482,7 +482,7 @@
                             <span>ℹ️ How Mentions Work</span>
                         </summary>
                         <div class="px-3 py-3 border-t border-border text-[12px] text-txt-secondary space-y-2">
-                            <p>The <code class="bg-bg-hover px-1 py-0.5 rounded text-[10px]">mentions.yml</code> workflow polls GitHub notifications hourly (8am–10pm UTC) for <code class="bg-bg-hover px-1 py-0.5 rounded text-[10px]">@agent-of-mkmeral</code> mentions.</p>
+                            <p>The <code class="bg-bg-hover px-1 py-0.5 rounded text-[10px]">mentions.yml</code> workflow polls GitHub notifications hourly (8am–10pm UTC) for <code class="bg-bg-hover px-1 py-0.5 rounded text-[10px]">@agent-of-yonib05</code> mentions.</p>
                             <p><strong>Flow:</strong> Mention detected → Author authorization check → <code class="bg-bg-hover px-1 py-0.5 rounded text-[10px]">agent.yml</code> dispatched → Agent responds</p>
                             <p><strong>Checked locations:</strong> Issue/PR bodies, comments, PR reviews, PR line comments</p>
                             <p><strong>Security:</strong> Only mentions from authorized users trigger the agent. Unauthorized mentions are silently ignored.</p>
@@ -753,7 +753,7 @@
             // ===== STATE =====
             page: 'home',
             config: {
-                github: { token: localStorage.getItem('gh_token') || '', repo: localStorage.getItem('gh_repo') || 'agent-of-mkmeral/strands-coder-private', workflow: localStorage.getItem('gh_workflow') || 'agent.yml', projectId: localStorage.getItem('gh_project_id') || 'PVT_kwHOD9DpTM4BSejE' },
+                github: { token: localStorage.getItem('gh_token') || '', repo: localStorage.getItem('gh_repo') || 'agent-of-yonib05/strands-coder', workflow: localStorage.getItem('gh_workflow') || 'agent.yml', projectId: localStorage.getItem('gh_project_id') || '' },
                 traces: { url: localStorage.getItem('traces_url') || '' }
             },
             loading: { issues: false, actions: false, project: false, traces: false },
@@ -858,14 +858,14 @@
             getActivityIcon(type) { return { IssueCommentEvent: '<i data-lucide="message-circle" class="inline-icon"></i>', PullRequestReviewEvent: '<i data-lucide="check-circle" class="inline-icon"></i>', PullRequestReviewCommentEvent: '<i data-lucide="message-square" class="inline-icon"></i>', IssuesEvent: '<i data-lucide="circle-dot" class="inline-icon"></i>', PullRequestEvent: '<i data-lucide="git-pull-request" class="inline-icon"></i>', CommitCommentEvent: '<i data-lucide="file-text" class="inline-icon"></i>', CreateEvent: '<i data-lucide="plus-circle" class="inline-icon"></i>', DeleteEvent: '<i data-lucide="trash-2" class="inline-icon"></i>', PushEvent: '<i data-lucide="arrow-up-circle" class="inline-icon"></i>' }[type] || '<i data-lucide="pin" class="inline-icon"></i>'; },
             getActivityBgStyle(repo) {
                 const owner = (repo || '').split('/')[0].toLowerCase();
-                if (['agent-of-mkmeral', 'mkmeral'].includes(owner)) return 'background-color: rgba(99,102,241,0.06); border-left: 2px solid rgba(99,102,241,0.3)';
-                if (['strands-agents', 'strands-labs', 'opieter-aws'].includes(owner)) return 'background-color: rgba(34,197,94,0.06); border-left: 2px solid rgba(34,197,94,0.3)';
+                if (['agent-of-yonib05', 'yonib05'].includes(owner)) return 'background-color: rgba(99,102,241,0.06); border-left: 2px solid rgba(99,102,241,0.3)';
+                if (['strands-agents', 'strands-labs'].includes(owner)) return 'background-color: rgba(34,197,94,0.06); border-left: 2px solid rgba(34,197,94,0.3)';
                 return 'background-color: rgba(234,179,8,0.08); border-left: 2px solid rgba(234,179,8,0.4)';
             },
             getActivityCategory(repo) {
                 const owner = (repo || '').split('/')[0].toLowerCase();
-                if (['agent-of-mkmeral', 'mkmeral'].includes(owner)) return 'own';
-                if (['strands-agents', 'strands-labs', 'opieter-aws'].includes(owner)) return 'strands';
+                if (['agent-of-yonib05', 'yonib05'].includes(owner)) return 'own';
+                if (['strands-agents', 'strands-labs'].includes(owner)) return 'strands';
                 return 'other';
             },
             extractIssueNum(action) { const m = action.display_title?.match(/#(\d+)/) || action.head_commit?.message?.match(/#(\d+)/); return m ? parseInt(m[1]) : null; },
@@ -1252,7 +1252,7 @@
                     const threshold3d = new Date(Date.now() - 3 * 86400000);
                     const throttledTypes = new Set(['IssueCommentEvent', 'PullRequestReviewEvent', 'PullRequestReviewCommentEvent', 'IssuesEvent', 'PullRequestEvent', 'CommitCommentEvent', 'CreateEvent', 'DeleteEvent', 'PushEvent']);
                     const external = [], internal = [], allDisplay = [];
-                    const internalOwners = [owner.toLowerCase(), 'mkmeral', 'opieter-aws'];
+                    const internalOwners = [owner.toLowerCase(), 'yonib05'];
                     for (const event of events) {
                         if (!throttledTypes.has(event.type)) continue;
                         if (new Date(event.created_at) < threshold3d) continue;
@@ -1282,7 +1282,7 @@
                 try {
                     const owner = this.config.github.repo.split('/')[0];
                     const headers = { 'Authorization': `Bearer ${this.config.github.token}` };
-                    const excludedOwners = [owner.toLowerCase(), 'mkmeral', 'opieter-aws'];
+                    const excludedOwners = [owner.toLowerCase(), 'yonib05'];
                     const isExternalRepo = item => { const repoOwner = (item.repository_url || '').replace('https://api.github.com/repos/', '').split('/')[0].toLowerCase(); return !excludedOwners.includes(repoOwner); };
                     const [prRes, issueRes] = await Promise.all([
                         fetch(`https://api.github.com/search/issues?q=${encodeURIComponent(`is:pr is:open author:${owner} is:public`)}&per_page=100&sort=updated&order=desc`, { headers }),
@@ -2506,7 +2506,7 @@
             // ===== WARNINGS =====
             computeWarnings() {
                 const w = [], owner = this.config.github.repo.split('/')[0];
-                const ALLOWED = ['agent-of-mkmeral', 'strands-agents', 'strands-labs', 'mkmeral', 'opieter-aws'];
+                const ALLOWED = ['agent-of-yonib05', 'strands-agents', 'strands-labs', 'yonib05'];
                 const ext = this.activityData.external_events || [];
                 const unauth = ext.filter(e => !ALLOWED.some(o => o.toLowerCase() === (e.repo || '').split('/')[0].toLowerCase()));
                 if (unauth.length > 0) { const repos = [...new Set(unauth.map(e => e.repo))]; w.push({ level: 'critical', icon: '<i data-lucide="shield-alert" class="inline-icon"></i>', title: 'Unauthorized Repository Interaction', description: `Agent performed ${unauth.length} action(s) in ${repos.length} unauthorized repo(s)`, details: repos.slice(0, 5).join(', ') }); }

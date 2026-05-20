@@ -260,11 +260,11 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Agent Username</label>
-                    <input class="form-input" id="usernameInput" placeholder="agent-of-mkmeral" value="agent-of-mkmeral">
+                    <input class="form-input" id="usernameInput" placeholder="agent-of-yonib05" value="agent-of-yonib05">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Exclude Repos (comma-separated owner/repo)</label>
-                    <input class="form-input" id="excludeInput" placeholder="agent-of-mkmeral/strands-coder-private">
+                    <input class="form-input" id="excludeInput" placeholder="agent-of-yonib05/strands-coder-private">
                 </div>
                 <button class="save-btn" onclick="saveSettings()">Save & Load</button>
             </div>
@@ -278,7 +278,7 @@
     <script>
     (function() {
         let token = localStorage.getItem('activity_gh_token') || localStorage.getItem('gh_token') || '';
-        let username = localStorage.getItem('activity_username') || 'agent-of-mkmeral';
+        let username = localStorage.getItem('activity_username') || 'agent-of-yonib05';
         let excludeRepos = (localStorage.getItem('activity_exclude') || '').split(',').filter(Boolean);
         
         let allPRs = [];
@@ -358,7 +358,7 @@
                     
                     // Exclude agent's own repos
                     if (repoName.startsWith(username + '/')) return true;
-                    if (repoName.startsWith('mkmeral/') || repoName.startsWith('opieter-aws/')) return true;
+                    if (repoName.startsWith('yonib05/')) return true;
                     
                     // Exclude user's repos
                     for (var i = 0; i < excludeRepos.length; i++) {
